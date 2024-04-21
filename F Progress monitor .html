@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 7.6.4.1 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		pre { background: transparent }
+		pre.western { font-family: "Liberation Mono", monospace; font-size: 10pt }
+		pre.cjk { font-family: "NSimSun", monospace; font-size: 10pt }
+		pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre class="western">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Overhead Tank Progress Monitor&lt;/title&gt;
+&lt;style&gt;
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #87CEEB; /* Light blue resembling water */
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff; /* White background for tanks */
+  }
+
+  .tank {
+    width: 100%;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .tank-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    background-color: #ddd;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    height: 20px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .progress {
+    background-color: #4caf50;
+    height: 100%;
+    border-radius: 4px;
+  }
+
+  .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #333;
+  }
+
+  .latest-activity {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .container {
+      width: 90%;
+    }
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;container&quot; id=&quot;tankContainer&quot;&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // JavaScript to dynamically generate tanks and update progress and latest activity
+  
+  // Function to add a new tank with given ID
+  function addTank(tankId) {
+    var tankName = prompt(&quot;Enter the name for Tank &quot; + tankId);
+    if (tankName) {
+        var inchargeName = prompt(&quot;Enter the incharge name for Tank &quot; + tankId);
+        if (inchargeName) {
+            var inchargePhone = prompt(&quot;Enter the incharge phone number for Tank &quot; + tankId);
+            if (inchargePhone) {
+                var startDate = prompt(&quot;Enter the start date for Tank &quot; + tankId + &quot; (YYYY-MM-DD)&quot;);
+                if (startDate) {
+                    // Create tank HTML elements
+                    var tankDiv = document.createElement(&quot;div&quot;);
+                    tankDiv.className = &quot;tank&quot;;
+                    tankDiv.innerHTML = `
+                      &lt;div class=&quot;tank-name&quot;&gt;${tankName}&lt;/div&gt;
+                      &lt;div&gt;Incharge Name: ${inchargeName}&lt;/div&gt;
+                      &lt;div&gt;Incharge Phone: ${inchargePhone}&lt;/div&gt;
+                      &lt;div&gt;Start Date: ${startDate}&lt;/div&gt;
+                      &lt;div class=&quot;progress-bar&quot;&gt;
+                        &lt;div class=&quot;progress&quot; id=&quot;progress${tankId}&quot; style=&quot;width: 0%;&quot;&gt;&lt;/div&gt;
+                        &lt;div class=&quot;progress-text&quot; id=&quot;progressText${tankId}&quot;&gt;0%&lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;latest-activity&quot; id=&quot;activity${tankId}&quot;&gt;Latest Activity: Not updated&lt;/div&gt;
+                      &lt;div&gt;
+                        &lt;button onclick=&quot;editProgress(${tankId})&quot;&gt;Edit Completion Percentage&lt;/button&gt;
+                        &lt;button onclick=&quot;editActivity(${tankId})&quot;&gt;Edit Latest Activity&lt;/button&gt;
+                      &lt;/div&gt;
+                    `;
+
+                    // Append tank to container
+                    document.getElementById(&quot;tankContainer&quot;).appendChild(tankDiv);
+                } else {
+                    alert(&quot;Please enter the start date for Tank &quot; + tankId);
+                }
+            } else {
+                alert(&quot;Please enter the incharge phone number for Tank &quot; + tankId);
+            }
+        } else {
+            alert(&quot;Please enter the incharge name for Tank &quot; + tankId);
+        }
+    }
+  }
+
+  var totalTanks = prompt(&quot;Enter the total number of tanks you want to track:&quot;);
+  if (totalTanks &amp;&amp; !isNaN(totalTanks) &amp;&amp; totalTanks &gt; 0) {
+    for (var i = 1; i &lt;= totalTanks; i++) {
+      addTank(i);
+    }
+  } else {
+    alert(&quot;Please enter a valid number greater than 0.&quot;);
+  }
+
+  // Function to edit completion percentage
+  function editProgress(tankId) {
+    var progress = prompt(&quot;Enter the new completion percentage for Tank &quot; + tankId);
+    if (progress &amp;&amp; !isNaN(progress) &amp;&amp; progress &gt;= 0 &amp;&amp; progress &lt;= 100) {
+      document.getElementById(&quot;progress&quot; + tankId).style.width = progress + &quot;%&quot;;
+      document.getElementById(&quot;progressText&quot; + tankId).innerText = progress + &quot;%&quot;;
+    } else {
+      alert(&quot;Please enter a valid percentage between 0 and 100.&quot;);
+    }
+  }
+
+  // Function to edit latest activity
+  function editActivity(tankId) {
+    var latestActivity = prompt(&quot;Enter the latest activity for Tank &quot; + tankId);
+    if (latestActivity) {
+      document.getElementById(&quot;activity&quot; + tankId).innerText = &quot;Latest Activity: &quot; + latestActivity;
+    }
+  }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
